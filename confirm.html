@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Confirm</title>
+        <style>
+            .maincontainer {
+                padding: 5%;
+
+            }
+            p {
+                font-size: 1rem;
+
+            }
+            #email2,
+            #name2 {
+                font-weight: bold;
+            }
+            #otp {
+                outline: none;
+                border: none;
+                border-bottom: 2px solid black;
+                background-color: whitesmoke;
+                font-weight: bold;
+                padding: 10px;
+                font-size: 1rem;
+            }
+            #validate {
+                font-size: 1.5rem;
+            }
+            .button {
+                font-size: 1.3rem;
+                padding: 10px;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgb(116, 112, 112);
+
+            }
+            .button:hover {
+                color: aqua;
+                background-color: rgb(111, 111, 175);
+            }
+.hint{
+    font-size: 12px;
+    color: rgb(226, 193, 193);
+}
+        </style>
+    </head>
+    <body>
+        <div class="maincontainer">
+            <p>
+                Dear
+                <span id="name2"></span>,<br/><br/><br/>
+                Thank yu for your inquiry. A 4 digit varification number sent to your email :
+                <span id="email2"></span>
+                .Please enter it in the following box and submit for confirmation:<span class="hint">(Check OTP in Console)</span><br/><br/>
+                <input type="text" name="otp" id="otp"/>
+                <h5 id="validate">Validate</h5>
+                <button onclick="varify()" class="button">Varify</button>
+                
+            </p>
+        </div>
+        <script>
+            let name = document.getElementById("name2");
+            let email = document.getElementById("email2");
+            let otp = document.getElementById("otp");
+            let validate = document.getElementById("validate");
+            let pin;
+            let gentate = () => {
+                pin = parseInt(Math.random() * (9999 - 1000) + 1000);
+            }
+            window.onload = () => {
+                gentate();
+                console.log("OTP :", pin)
+                var data = localStorage.getItem("inputData");
+                if (data != null) {
+                    arr2 = JSON.parse(data);
+                    let {name: N, email: E} = arr2[0]
+
+                    // console.log(N, E);
+                    name.innerHTML = N;
+                    email.innerHTML = E;
+
+                }
+
+            }
+          
+            let counter = 0;
+            function varify() {
+                // console.log("calle")
+            
+                if (otp.value == pin) {
+                 
+                    validate.style.color = "green";
+                    validate.innerHTML = "Validation Successful!";
+
+                } else {
+                    validate.style.color = "red";
+                    validate.innerHTML = "Validation Failed!";
+                    counter+=1;
+                    otp.value=""
+               
+                   
+                }
+
+        
+                console.log(counter)
+                if (counter == 3) {
+                    gentate();
+                    console.log("NEW-OTP :", pin)
+                    // console.log("call counter")
+                    counter=0
+                }
+                
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Lone page</title>
+        <style>
+            *{
+                margin: 0px;
+                padding: 0px;
+                box-sizing: border-box;
+            }
+            body{
+                    padding: 5vh 0 0 0;
+                    background-color: whitesmoke;
+            }
+            .index-main-container{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            form{
+                width: 60%;
+            }
+           label{
+            display: block;
+            text-align: justify;
+            margin: 2vh 0;
+            font-size: 1.3rem;
+           }
+           input{
+            font-size: 1.2rem;
+            width: 100%;
+            padding: 10px 0;
+            border: none;
+            outline: none;
+            background-color: white;
+            margin: 10px 0;
+            border: 2px solid transparent;
+            border-bottom: 2px solid black;
+           }
+           input::placeholder{
+            color: rgba(169, 164, 164,.4);
+           }
+           .buttonsubmint{
+            font-size: 1.2rem;
+            padding: 10px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            border-radius: 2px;
+            background-color: rgb(199, 200, 200);
+            width: 100%;
+            margin-top: 20px;
+           }
+           .buttonsubmint:hover{
+            color: blue;
+           }
+           .loginpage{
+            font-size: 2rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+           }
+           #printword{
+            font-size: clamp(1rem ,2vw,1.3rem);
+            font-family:Arial, Helvetica, sans-serif;
+            height: auto;
+            color: rgb(146, 146, 145);
+           }
+           @media (max-width:800px){
+            body{
+                padding: 0 3%;
+            }
+            form{
+                width: 100%;
+            }
+           }
+        </style>
+    </head>
+    <body>
+        <div class="index-main-container">
+            <h2 class="loginpage">Lone Page</h2>
+        <form action="" onsubmit="event.preventDefault();submithandler();">
+            <label for="ch">Name :<br/>
+                <input type="text" placeholder="Sothe Last"  onchange="check()" required name="name" id="ch"/>
+            </label>
+            <label for="email">Email :<br/>
+                <input type="email" placeholder="sothelast1@gmail.com" required name="name" id="email">
+            </label>
+            <label for="lone">Lone Amount:<br/>
+                <input
+                    type="number"
+                    placeholder="9865"
+                    required
+                    id="lone"
+                    name="lone"
+                    pattern="[0-9]*$"
+                    title="Formmat : 988765"
+                    onchange="convertToWords()"/>
+            </label>
+            <h6 id="printword"></h6>
+            <label for="pan">Pan :<br/>
+                <input
+                    type="text"
+                    placeholder="AGVDE945894A"
+                    required
+                    title="Formmat :ABCDEF2344F"
+                    pattern="[A-Za-z0-9]*$"
+                    name="pan"
+                    id="pan"/>
+            </label>
+
+            <button class="buttonsubmint" type="submit">Submit</button>
+        </form>
+    </div>
+        <script>
+            let name1 = document.getElementById("ch");
+            let email1 = document.getElementById("email");
+            let lone1 = document.getElementById("lone");
+            let pan1 = document.getElementById("pan");
+
+
+             var arrobj = new Array();//creating empty arry for store input data
+
+            function submithandler(){
+             //   e.preventDefault();
+                 check()
+                     arrobj.push(
+                        {
+                            name:name1.value,
+                            email:email1.value,
+                            lone:lone1.value,
+                            pan1:pan1.value
+                        }
+                     );
+
+                     localStorage.setItem("inputData", JSON.stringify(arrobj));
+                     console.log(arrobj)
+                     location.replace("./confirm.html")
+            }
+
+            function check() {
+
+                let arr = name1
+                    .value.trim()
+                    .split(" ");
+                console.log("you enter", name1.value, arr, arr.length);
+                if (arr.length >= 2) {
+                    for (let i = 0; i < arr.length; i++) {
+                        if (arr[i].length >= 4 && arr[i].length <= 40) {
+                            console.log(arr[i], arr[i].length, ": = this is ok");
+                            name1.style.border="none";
+                            name1.style.borderBottom="2px solid black";
+                            
+                        } else {
+                            console.log(" Name , each word shoud be max 4 char and less 40 char");
+                            alert(`In Name  word " ${arr[i]} " shoud be max 4 char and less 40 char`)
+                            name1.style.border="2px solid red";
+                            
+                        }
+                    }
+                } else {
+                    alert("Name  atlesat 2 works");
+                    console.log("Enter atleast 2 words");
+                    name1.style.border="2px solid red";
+                    
+                }
+            }
+
+            var one = [
+                "",
+                "one ",
+                "two ",
+                "three ",
+                "four ",
+                "five ",
+                "six ",
+                "seven ",
+                "eight ",
+                "nine ",
+                "ten ",
+                "eleven ",
+                "twelve ",
+                "thirteen ",
+                "fourteen ",
+                "fifteen ",
+                "sixteen ",
+                "seventeen ",
+                "eighteen ",
+                "nineteen "
+            ];
+
+            // Strings at index 0 and 1 are not used, they are to make array indexing simple
+            var ten = [
+                "",
+                "",
+                "twenty ",
+                "thirty ",
+                "forty ",
+                "fifty ",
+                "sixty ",
+                "seventy ",
+                "eighty ",
+                "ninety "
+            ];
+
+            // n is 1- or 2-digit number
+            function numToWords(n, s) {
+
+                var str = "";
+                // if n is more than 19, divide it
+                if (n > 19) {
+                    str += ten[parseInt(n / 10)] + one[n % 10];
+                } else {
+                    str += one[n];
+                }
+
+                // if n is non-zero
+                if (n != 0) {
+                    str += s;
+                }
+
+                return str;
+            }
+
+            // Function to print a given number in words
+            function convertToWords() {
+                let num = document
+                    .getElementById("lone")
+                    .value
+                // stores word representation of given number n
+                var out = "";
+
+                // handles digits at ten millions and hundred millions places (if any)
+                out += numToWords(parseInt(num / 10000000), "crore ");
+
+                // handles digits at hundred thousands and one millions places (if any)
+                out += numToWords(parseInt((num / 100000) % 100), "lakh ");
+
+                // handles digits at thousands and tens thousands places (if any)
+                out += numToWords(parseInt((num / 1000) % 100), "thousand ");
+
+                // handles digit at hundreds places (if any)
+                out += numToWords(parseInt((num / 100) % 10), "hundred ");
+
+                if (num > 100 && num % 100 > 0) {
+                    out += "and ";
+                }
+
+                // handles digits at ones and tens places (if any)
+                out += numToWords(parseInt(num % 100), "");
+                document
+                    .getElementById("printword")
+                    .innerHTML = out
+                return 0;
+            }
+        </script>
+    </body>
+</html>
