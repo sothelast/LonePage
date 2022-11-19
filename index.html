@@ -142,9 +142,9 @@
 
             function check() {
 
-                let arr = name1
-                    .value.trim()
-                    .split(" ");
+                    let arr = name1
+                    .value
+                    .split(" ").filter(word => word.trim().length > 0);
                 console.log("you enter", name1.value, arr, arr.length);
                 if (arr.length >= 2) {
                     for (let i = 0; i < arr.length; i++) {
